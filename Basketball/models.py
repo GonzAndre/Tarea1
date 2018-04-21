@@ -1,11 +1,13 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.conf import settings
+from django.utils.safestring import mark_safe
 
 class Team(models.Model): #herencia de models
     name = models.CharField(max_length=200) #maximo del string
     description = models.TextField()
-    photo = models.ImageField()
+    logo = models.ImageField()
     code = models.CharField(max_length=200)
 
     def __str__(self):
@@ -21,6 +23,7 @@ class Player(models.Model):
     height = models.CharField(max_length=200)
     weight = models.IntegerField(default = 0)
     photo = models.ImageField()
+    team = models.ForeignKey(Team, on_delete = models.CASCADE)
     position = models.CharField(
             max_length=2,
             choices=(
@@ -43,5 +46,12 @@ class Coach(models.Model):
     rut = models.CharField(max_length=200)
     mail = models.CharField(max_length=200)
 
-class Partido(models.Model):
+    def __str__(self):
+        return self.name
+
+class Game(models.Model):
     name = models.CharField(max_length=200)
+    code = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
